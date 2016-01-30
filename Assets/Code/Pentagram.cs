@@ -24,15 +24,27 @@ public class Pentagram : MonoBehaviour {
         var color = ColorExtension.HSVToRGB( 1, 1, 1 );
         var hsv = color.ToHSV();
 
-        AddInstant( 0 );
+        AddInstant( 0.5f );
 
-        AddTimed( 1, 5 );
-        AddWait( 2.5f );
+        //AddTimed( 0f, 1 );
+        //AddWait( 3f );
 
-        AddTimed( 0, 5 );
-        AddWait( 2.5f );
+        //AddTimed( 0.2f, 1 );
+        //AddWait( 3f );
 
-        AddTimed( 0.5f, 5 );
+        //AddTimed( 0.8f, 1 );
+        //AddWait( 3f );
+
+        AddTimed( 1f, 10 );
+        AddTimed( 0f, 10 );
+        AddTimed( 1f, 10 );
+
+        //AddWait( 3.5f );
+
+        //AddTimed( 1, 2 );
+        //AddWait( 3.5f );
+
+        //AddTimed( 0.5f, 2 );
 
         StartCoroutine( HandleQueue() );
     }
@@ -102,7 +114,16 @@ public class Pentagram : MonoBehaviour {
         while ( time < duration ) {
             time += Time.deltaTime;
             hsv.x += diff * ( Time.deltaTime * timefactor );
-            renderer.material.color = ColorExtension.HSVToRGB( hsv.x, 1, 1 );
+
+            var hsvx = hsv.x;
+
+            if(Controller.STEP_SIZE > 0) {
+                var hsvXInt = (int)( hsv.x * Controller.STEP_SIZE );
+                hsvx = hsvXInt / Controller.STEP_SIZE;
+            }
+
+
+            renderer.material.color = ColorExtension.HSVToRGB( hsvx, 1, 1 );
             yield return null;
         }
 
