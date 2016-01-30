@@ -1,1 +1,1 @@
-# GGJ16-SuperPentagon
+# GGJ16-SuperPentagram*
