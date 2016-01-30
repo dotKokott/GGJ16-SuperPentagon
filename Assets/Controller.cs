@@ -43,6 +43,11 @@ public class Controller : MonoBehaviour {
                 OnBadCash( this, null );
             }
 
+            var sys = GameObject.Find( "DrBoom" ).GetComponentInChildren<ParticleSystem>();
+            var alpha = sys.startColor.a;
+            sys.startColor = pentaRenderer.material.color;
+            sys.Emit( 10000 );
+
             GameObject.Find( "Text" ).GetComponent<TextMesh>().text = String.Format( "{0} %", (int)percent );
         }
     }

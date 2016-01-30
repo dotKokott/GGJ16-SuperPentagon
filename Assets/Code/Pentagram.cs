@@ -24,9 +24,10 @@ public class Pentagram : MonoBehaviour {
 
     [HideInInspector]
     public List<PentaInfo> Qu = new List<PentaInfo>();
-    new private SpriteRenderer renderer;
+    new public SpriteRenderer renderer;
     private bool stopCurrent = false;
 
+    
 
     void Start() {
         renderer = GetComponent<SpriteRenderer>();
@@ -132,8 +133,8 @@ public class Pentagram : MonoBehaviour {
                 if ( stopCurrent ) {
                     stopCurrent = false;
 
-                    foreach ( var cube in Cubes ) {
-                        cube.material.color = Color.black;
+                    for ( var i = 0; i < Cubes.Length; i++ ) {
+                        systems[i].Stop();
                     }
 
                     break;
