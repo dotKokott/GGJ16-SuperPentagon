@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System;
 
 public class Axis : MonoBehaviour {
-	float vertical;
+
 	public MeshRenderer render;
+	float vertical;
 	// Use this for initialization
 	void Start () {
 	
@@ -14,11 +13,6 @@ public class Axis : MonoBehaviour {
 	void Update () {
 		float vertical = Input.GetAxis ("Vertical");
 		var t = (vertical + 1) / 2f;
-
-        Debug.Log( t );
-
-		//hsc.Hue = t;
-		//Debug.Log(hsc.ToRGB());
 		render.material.color = HSVToRGB (t, 1, 1, true);
 	}
 
