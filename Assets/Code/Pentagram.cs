@@ -19,11 +19,12 @@ public class PentaInfo {
 
 public class Pentagram : MonoBehaviour {
 
+    public MeshRenderer[] Cubes;
     [HideInInspector]
     public List<PentaInfo> Qu = new List<PentaInfo>();
     new private MeshRenderer renderer;
+    private bool stopCurrent = false;
 
-    public MeshRenderer[] Cubes;
 
     void Start() {
         renderer = GetComponent<MeshRenderer>();
@@ -87,28 +88,33 @@ public class Pentagram : MonoBehaviour {
         } );
     }
 
-    private IEnumerator HandleQueue() {
-        var current = Qu.First();
-        Qu.RemoveAt( 0 );
+    public void Skip() {
+        stopCurrent = true;
+    }
 
-        while ( current != null ) {
-            switch ( current.Mode ) {
+    private IEnumerator HandleQueue() {
+        foreach ( var item in Qu ) {
+            IEnumerator currentIt = null;
+
+            switch ( item.Mode ) {
                 case EPentaMode.Instant:
-                    yield return StartCoroutine( Instant( current.Hue ) );
+                    currentIt = Instant( item.Hue );
                     break;
                 case EPentaMode.Timed:
-                    yield return StartCoroutine( Timed( current.Hue, current.Time ) );
+                    currentIt = Timed( item.Hue, item.Time );
                     break;
                 case EPentaMode.Wait:
-                    yield return new WaitForSeconds( current.Time );
+                    currentIt = Wait( item.Time );
                     break;
             }
 
-            if ( Qu.Count > 0 ) {
-                current = Qu.First();
-                Qu.RemoveAt( 0 );
-            } else {
-                current = null;
+            while ( currentIt.MoveNext() ) {
+                if ( stopCurrent ) {
+                    stopCurrent = false;
+                    break;
+                }
+
+                yield return currentIt.Current;
             }
         }
 
@@ -167,5 +173,16 @@ public class Pentagram : MonoBehaviour {
         }
 
         yield break;
+    }
+
+    private IEnumerator Wait( float duration ) {
+        yield return new WaitForSeconds( duration );
+    }
+
+    void Update() {
+        if ( Input.GetKeyUp( KeyCode.Space ) ) {
+            Debug.Log( "Skip" );
+            Skip();
+        }
     }
 }
