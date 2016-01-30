@@ -14,6 +14,9 @@ public class Axis : MonoBehaviour {
 	void Update () {
 		float vertical = Input.GetAxis ("Vertical");
 		var t = (vertical + 1) / 2f;
+
+        Debug.Log( t );
+
 		//hsc.Hue = t;
 		//Debug.Log(hsc.ToRGB());
 		render.material.color = HSVToRGB (t, 1, 1, true);
