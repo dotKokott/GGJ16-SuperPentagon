@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
+using System.Linq;
 
 public enum EPentaMode {
     Instant,
@@ -8,6 +10,7 @@ public enum EPentaMode {
     Wait
 }
 
+[Serializable]
 public class PentaInfo {
     public EPentaMode Mode;
     public float Hue;
@@ -16,50 +19,40 @@ public class PentaInfo {
 
 public class Pentagram : MonoBehaviour {
 
-    public Queue<PentaInfo> Qu = new Queue<PentaInfo>();
+    [HideInInspector]
+    public List<PentaInfo> Qu = new List<PentaInfo>();
     new private MeshRenderer renderer;
 
     void Start() {
         renderer = GetComponent<MeshRenderer>();
-        var color = ColorExtension.HSVToRGB( 1, 1, 1 );
-        var hsv = color.ToHSV();
-
-        AddInstant( 0 );
-
-        AddTimed( 1, 5 );
-        AddWait( 2.5f );
-
-        AddTimed( 0, 5 );
-        AddWait( 2.5f );
-
-        AddTimed( 0.5f, 5 );
 
         StartCoroutine( HandleQueue() );
     }
 
     public void AddInstant( float hue ) {
-        Qu.Enqueue( new PentaInfo() {
+        Qu.Add( new PentaInfo() {
             Mode = EPentaMode.Instant,
             Hue = hue
         } );
     }
 
     public void AddTimed( float hue, float time ) {
-        Qu.Enqueue( new PentaInfo() {
+        Qu.Add( new PentaInfo() {
             Mode = EPentaMode.Timed,
             Time = time, Hue = hue
         } );
     }
 
     public void AddWait( float time ) {
-        Qu.Enqueue( new PentaInfo() {
+        Qu.Add( new PentaInfo() {
             Mode = EPentaMode.Wait,
             Time = time
         } );
     }
-    
+
     private IEnumerator HandleQueue() {
-        var current = Qu.Dequeue();
+        var current = Qu.First();
+        Qu.RemoveAt( 0 );
 
         while ( current != null ) {
             switch ( current.Mode ) {
@@ -75,7 +68,8 @@ public class Pentagram : MonoBehaviour {
             }
 
             if ( Qu.Count > 0 ) {
-                current = Qu.Dequeue();
+                current = Qu.First();
+                Qu.RemoveAt( 0 );
             } else {
                 current = null;
             }
