@@ -172,7 +172,7 @@ public class Pentagram : MonoBehaviour {
                 Cubes[cube].material.color = ColorExtension.HSVToRGB( hue, 1, 1 );
             }
 
-
+            
             yield return null;
         }
 
@@ -189,7 +189,7 @@ public class Pentagram : MonoBehaviour {
 
     void Update() {
         if ( Input.GetButtonDown( "Cash" ) ) {
-            
+            iTween.ShakePosition( GameObject.Find( "Main Camera" ), new Vector3( 0.2f, 0.2f, 0.2f ), 0.4f );
             Skip();
 
         }
