@@ -5,10 +5,14 @@ using System;
 public class Controller : MonoBehaviour {
 	
 	public MeshRenderer render;
+    private Pentagram penta;
+    private MeshRenderer pentaRenderer;
 
     public static float STEP_SIZE = 0f;
 
-	void Start () {	
+	void Start () {
+        penta = GameObject.Find( "Pentagram" ).GetComponent<Pentagram>();
+        pentaRenderer = GameObject.Find( "Pentagram" ).GetComponent<MeshRenderer>();
 	}
 	
 	// Update is called once per frame
@@ -21,6 +25,17 @@ public class Controller : MonoBehaviour {
         }
 
 		render.material.color = HSVToRGB (t, 1, 1, true);
+
+        if(Input.GetButtonDown("Cash")) {
+            var myCol = t;
+            var penCol = pentaRenderer.material.color.ToHSV().x;
+
+            var diff = Mathf.Abs( myCol - penCol );
+
+            var percent = 1 / diff;
+
+            GameObject.Find( "Text" ).GetComponent<TextMesh>().text = String.Format( "{0} %", (int)percent );
+        }
 	}
 
 	private Color HSVToRGB(float H, float S, float V, bool hdr = true) {
