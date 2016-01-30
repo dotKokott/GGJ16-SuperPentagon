@@ -37,9 +37,13 @@ public class Pentagram : MonoBehaviour {
         //Debug.Log( ColorExtension.HSVToRGB( 1, 0, 1 ) );
 
         AddInstant( 0.5f );
-        AddTimed( 0, 4 );
-        AddTimed( 0.5f, 4 );
-        AddTimed( 1, 4 );
+        AddTimed( 0, 2 );
+        AddTimed( 0.2f, 2 );
+        AddTimed( 0.9f, 2 );
+        AddTimed( 0.3f, 2 );
+        AddTimed( 0.7f, 2 );
+        AddTimed( 0.2f, 2 );
+        AddTimed( 0.5f, 2 );
         //AddTimed( 0.5f, 1 );
         //AddTimed( 1, 1 );
         //AddInstant( 0.5f );
@@ -138,10 +142,12 @@ public class Pentagram : MonoBehaviour {
 
         var halfDuration = duration / 2;
 
+        renderer.material.color = ColorExtension.HSVToRGB( hue, 1, 1 );
+
         while ( time < halfDuration ) {
             time += Time.deltaTime;
             hsv.y -= Time.deltaTime * timefactor * 2;
-            renderer.material.color = ColorExtension.HSVToRGB( hsv.x, hsv.y, 1 );
+            //renderer.material.color = ColorExtension.HSVToRGB( hsv.x, hsv.y, 1 );
 
             var cube = (int)Mathf.Floor(( Cubes.Length / duration ) * time);
             Cubes[cube].material.color = ColorExtension.HSVToRGB( hue, 1, 1 );
@@ -154,13 +160,10 @@ public class Pentagram : MonoBehaviour {
         while ( time < duration ) {
             time += Time.deltaTime;
             hsv.y += Time.deltaTime * timefactor * 2;
-            renderer.material.color = ColorExtension.HSVToRGB( hsv.x, hsv.y, 1 );
+            //renderer.material.color = ColorExtension.HSVToRGB( hsv.x, hsv.y, 1 );
 
             if(time < duration ) {
                 var cube = (int)Mathf.Floor( ( (float)Cubes.Length / duration ) * time );
-                if ( cube == 4 ) {
-                    Debug.Log( time );
-                }
                 Cubes[cube].material.color = ColorExtension.HSVToRGB( hue, 1, 1 );
             }
 
