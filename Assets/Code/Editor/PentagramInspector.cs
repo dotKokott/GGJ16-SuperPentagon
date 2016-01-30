@@ -42,11 +42,14 @@ public class PentagramInspector : Editor {
         rect.y += hh;
 
         if ( item.Mode == EPentaMode.Instant ) {
-
-            item.Hue = Mathf.Min( 1, EditorGUI.FloatField( rect, "Hue", item.Hue ) );
+            var color = ColorExtension.HSVToRGB( item.Hue, 1, 1 );
+            color = EditorGUI.ColorField( rect, "Hue", color );
+            item.Hue = color.ToHSV().x;
         } else if ( item.Mode == EPentaMode.Timed ) {
             rect.width = hw;
-            item.Hue = Mathf.Min( 1, EditorGUI.FloatField( rect, "Hue", item.Hue ) );
+            var color = ColorExtension.HSVToRGB( item.Hue, 1, 1 );
+            color = EditorGUI.ColorField( rect, "Hue", color );
+            item.Hue = color.ToHSV().x;
 
             rect.x += hw;
             item.Time = EditorGUI.FloatField( rect, "Time", item.Time );
