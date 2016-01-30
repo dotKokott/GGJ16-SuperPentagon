@@ -22,6 +22,5 @@ public class HueHelper : MonoBehaviour {
         var pos = start;
         pos.x += offset * vertical;
         transform.position = pos;
-
 	}
 }

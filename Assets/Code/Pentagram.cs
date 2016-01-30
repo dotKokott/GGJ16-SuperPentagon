@@ -26,10 +26,20 @@ public class Pentagram : MonoBehaviour {
     void Start() {
         renderer = GetComponent<MeshRenderer>();
 
-        var color = ColorExtension.HSVToRGB( 1, 1, 1 );
-        var hsv = color.ToHSV();
+        //var color = ColorExtension.HSVToRGB( 1, 1, 1 );
+        //var hsv = color.ToHSV();
+
+        //Debug.Log( ColorExtension.HSVToRGB( 1, 1, 1 ) );
+
+        //Debug.Log( ColorExtension.HSVToRGB( 1, 0, 1 ) );
 
         AddInstant( 0.5f );
+        AddTimed( 0, 2 );
+        AddTimed( 0.5f, 2 );
+        AddTimed( 1, 2 );
+        //AddTimed( 0.5f, 1 );
+        //AddTimed( 1, 1 );
+        //AddInstant( 0.5f );
 
         //AddTimed( 0f, 1 );
         //AddWait( 3f );
@@ -40,9 +50,9 @@ public class Pentagram : MonoBehaviour {
         //AddTimed( 0.8f, 1 );
         //AddWait( 3f );
 
-        AddTimed( 1f, 10 );
-        AddTimed( 0f, 10 );
-        AddTimed( 1f, 10 );
+        //AddTimed( 1f, 10 );
+        //AddTimed( 0f, 10 );
+        //AddTimed( 1f, 10 );
 
         //AddWait( 3.5f );
 
@@ -118,19 +128,21 @@ public class Pentagram : MonoBehaviour {
         var timefactor = 1f / duration;
         var time = 0f;
 
+        var halfDuration = duration / 2;
+
+        while ( time < halfDuration ) {
+            time += Time.deltaTime;
+            hsv.y -= Time.deltaTime * timefactor * 2;
+            renderer.material.color = ColorExtension.HSVToRGB( hsv.x, hsv.y, 1 );
+            yield return null;
+        }
+
+        hsv.x = hue;
+
         while ( time < duration ) {
             time += Time.deltaTime;
-            hsv.x += diff * ( Time.deltaTime * timefactor );
-
-            var hsvx = hsv.x;
-
-            if(Controller.STEP_SIZE > 0) {
-                var hsvXInt = (int)( hsv.x * Controller.STEP_SIZE );
-                hsvx = hsvXInt / Controller.STEP_SIZE;
-            }
-
-
-            renderer.material.color = ColorExtension.HSVToRGB( hsvx, 1, 1 );
+            hsv.y += Time.deltaTime * timefactor * 2;
+            renderer.material.color = ColorExtension.HSVToRGB( hsv.x, hsv.y, 1 );
             yield return null;
         }
 
