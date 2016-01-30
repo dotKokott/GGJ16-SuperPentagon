@@ -19,7 +19,9 @@ public class PentaInfo {
 
 public class Pentagram : MonoBehaviour {
 
-    public MeshRenderer[] Cubes;
+    public ParticleSystemRenderer[] Cubes;
+    private List<ParticleSystem> systems = new List<ParticleSystem>();
+
     [HideInInspector]
     public List<PentaInfo> Qu = new List<PentaInfo>();
     new private SpriteRenderer renderer;
@@ -28,6 +30,14 @@ public class Pentagram : MonoBehaviour {
 
     void Start() {
         renderer = GetComponent<SpriteRenderer>();
+
+        foreach(var cube in Cubes ) {
+
+            var sys = cube.GetComponent<ParticleSystem>();
+            sys.startSize = 1;
+            sys.Stop();
+            systems.Add( sys );
+        }
 
         //var color = ColorExtension.HSVToRGB( 1, 1, 1 );
         //var hsv = color.ToHSV();
@@ -160,8 +170,18 @@ public class Pentagram : MonoBehaviour {
             hsv.y -= Time.deltaTime * timefactor * 2;
             //renderer.material.color = ColorExtension.HSVToRGB( hsv.x, hsv.y, 1 );
 
+
+
             var cube = (int)Mathf.Floor(( Cubes.Length / duration ) * time);
-            Cubes[cube].material.color = ColorExtension.HSVToRGB( hue, 1, 1 );
+
+            var color = ColorExtension.HSVToRGB( hue, 1, 1 );
+
+            if(!systems[cube].isPlaying) {
+                systems[cube].Play();
+            }
+
+            systems[cube].startColor = color;
+            Cubes[cube].material.SetColor( "_TintColor", color );
 
             yield return null;
         }
@@ -175,15 +195,24 @@ public class Pentagram : MonoBehaviour {
 
             if(time < duration ) {
                 var cube = (int)Mathf.Floor( ( (float)Cubes.Length / duration ) * time );
-                Cubes[cube].material.color = ColorExtension.HSVToRGB( hue, 1, 1 );
+
+                var color = ColorExtension.HSVToRGB( hue, 1, 1 );
+
+                if ( !systems[cube].isPlaying ) {
+                    systems[cube].Play();
+                }
+
+                systems[cube].startColor = color;
+
+                Cubes[cube].material.SetColor( "_TintColor", color );
             }
 
             
             yield return null;
         }
 
-        foreach(var cube in Cubes ) {
-            cube.material.color = Color.black;
+        for ( var i = 0; i < Cubes.Length; i++ ) {
+            systems[i].Stop();
         }
 
         yield break;

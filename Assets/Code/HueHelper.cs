@@ -16,7 +16,7 @@ public class HueHelper : MonoBehaviour {
         offset = ren.sprite.textureRect.width / ren.sprite.pixelsPerUnit / 2 * Bar.transform.localScale.x;
         start = Bar.transform.position;
         if ( !IgnoreY ) {
-            start.y += 0.75f;
+            //start.y += 0.75f;
         } else {
             start = transform.position;
             //start.x += transform.position.x;
