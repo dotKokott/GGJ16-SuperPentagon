@@ -22,12 +22,12 @@ public class Pentagram : MonoBehaviour {
     public MeshRenderer[] Cubes;
     [HideInInspector]
     public List<PentaInfo> Qu = new List<PentaInfo>();
-    new private MeshRenderer renderer;
+    new private SpriteRenderer renderer;
     private bool stopCurrent = false;
 
 
     void Start() {
-        renderer = GetComponent<MeshRenderer>();
+        renderer = GetComponent<SpriteRenderer>();
 
         //var color = ColorExtension.HSVToRGB( 1, 1, 1 );
         //var hsv = color.ToHSV();
@@ -115,6 +115,11 @@ public class Pentagram : MonoBehaviour {
             while ( currentIt.MoveNext() ) {
                 if ( stopCurrent ) {
                     stopCurrent = false;
+
+                    foreach ( var cube in Cubes ) {
+                        cube.material.color = Color.black;
+                    }
+
                     break;
                 }
 
@@ -183,9 +188,10 @@ public class Pentagram : MonoBehaviour {
     }
 
     void Update() {
-        if ( Input.GetKeyUp( KeyCode.Space ) ) {
-            Debug.Log( "Skip" );
+        if ( Input.GetButtonDown( "Cash" ) ) {
+            
             Skip();
+
         }
     }
 }

@@ -6,13 +6,13 @@ public class Controller : MonoBehaviour {
 
     public MeshRenderer render;
     private Pentagram penta;
-    private MeshRenderer pentaRenderer;
+    private SpriteRenderer pentaRenderer;
 
     public static float STEP_SIZE = 0f;
 
     void Start() {
-        penta = GameObject.Find( "Pentagram" ).GetComponent<Pentagram>();
-        pentaRenderer = GameObject.Find( "Pentagram" ).GetComponent<MeshRenderer>();
+        penta = GameObject.Find( "Symbol" ).GetComponent<Pentagram>();
+        pentaRenderer = GameObject.Find( "Symbol" ).GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
