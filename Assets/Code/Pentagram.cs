@@ -23,6 +23,8 @@ public class Pentagram : MonoBehaviour {
     public List<PentaInfo> Qu = new List<PentaInfo>();
     new private MeshRenderer renderer;
 
+    public MeshRenderer[] Cubes;
+
     void Start() {
         renderer = GetComponent<MeshRenderer>();
 
@@ -34,9 +36,9 @@ public class Pentagram : MonoBehaviour {
         //Debug.Log( ColorExtension.HSVToRGB( 1, 0, 1 ) );
 
         AddInstant( 0.5f );
-        AddTimed( 0, 2 );
-        AddTimed( 0.5f, 2 );
-        AddTimed( 1, 2 );
+        AddTimed( 0, 4 );
+        AddTimed( 0.5f, 4 );
+        AddTimed( 1, 4 );
         //AddTimed( 0.5f, 1 );
         //AddTimed( 1, 1 );
         //AddInstant( 0.5f );
@@ -134,6 +136,10 @@ public class Pentagram : MonoBehaviour {
             time += Time.deltaTime;
             hsv.y -= Time.deltaTime * timefactor * 2;
             renderer.material.color = ColorExtension.HSVToRGB( hsv.x, hsv.y, 1 );
+
+            var cube = (int)Mathf.Floor(( Cubes.Length / duration ) * time);
+            Cubes[cube].material.color = ColorExtension.HSVToRGB( hue, 1, 1 );
+
             yield return null;
         }
 
@@ -143,7 +149,21 @@ public class Pentagram : MonoBehaviour {
             time += Time.deltaTime;
             hsv.y += Time.deltaTime * timefactor * 2;
             renderer.material.color = ColorExtension.HSVToRGB( hsv.x, hsv.y, 1 );
+
+            if(time < duration ) {
+                var cube = (int)Mathf.Floor( ( (float)Cubes.Length / duration ) * time );
+                if ( cube == 4 ) {
+                    Debug.Log( time );
+                }
+                Cubes[cube].material.color = ColorExtension.HSVToRGB( hue, 1, 1 );
+            }
+
+
             yield return null;
+        }
+
+        foreach(var cube in Cubes ) {
+            cube.material.color = Color.black;
         }
 
         yield break;
