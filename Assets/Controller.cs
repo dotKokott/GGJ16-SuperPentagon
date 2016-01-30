@@ -10,6 +10,9 @@ public class Controller : MonoBehaviour {
 
     public static float STEP_SIZE = 0f;
 
+    public static event EventHandler OnGoodCash;
+    public static event EventHandler OnBadCash;
+
     void Start() {
         penta = GameObject.Find( "Symbol" ).GetComponent<Pentagram>();
         pentaRenderer = GameObject.Find( "Symbol" ).GetComponent<SpriteRenderer>();
@@ -33,6 +36,12 @@ public class Controller : MonoBehaviour {
             var diff = Mathf.Abs( myCol - penCol );
 
             var percent = 100 - diff * 100;
+
+            if ( percent >= 90 ) {
+                OnGoodCash( this, null );
+            } else {
+                OnBadCash( this, null );
+            }
 
             GameObject.Find( "Text" ).GetComponent<TextMesh>().text = String.Format( "{0} %", (int)percent );
         }

@@ -37,13 +37,19 @@ public class Pentagram : MonoBehaviour {
         //Debug.Log( ColorExtension.HSVToRGB( 1, 0, 1 ) );
 
         AddInstant( 0.5f );
-        AddTimed( 0, 2 );
-        AddTimed( 0.2f, 2 );
-        AddTimed( 0.9f, 2 );
-        AddTimed( 0.3f, 2 );
-        AddTimed( 0.7f, 2 );
-        AddTimed( 0.2f, 2 );
-        AddTimed( 0.5f, 2 );
+        AddTimed( 0, 4 );
+        AddWait( 1 );
+        AddTimed( 0.2f, 4 );
+        AddWait( 1 );
+        AddTimed( 0.9f, 4 );
+        AddWait( 1 );
+        AddTimed( 0.3f, 4 );
+        AddWait( 1 );
+        AddTimed( 0.7f, 4 );
+        AddWait( 1 );
+        AddTimed( 0.2f, 4 );
+        AddWait( 1 );
+        AddTimed( 0.5f, 4 );
         //AddTimed( 0.5f, 1 );
         //AddTimed( 1, 1 );
         //AddInstant( 0.5f );
