@@ -42,6 +42,13 @@ public class Pentagram : MonoBehaviour {
             systems.Add( sys );
         }
 
+        AddTimed( UnityEngine.Random.Range( 0f, 0.99f ), 8 );
+        AddTimed( UnityEngine.Random.Range( 0f, 0.99f ), 8 );
+        AddTimed( UnityEngine.Random.Range( 0f, 0.99f ), 7 );
+        AddTimed( UnityEngine.Random.Range( 0f, 0.99f ), 7 );
+        AddTimed( UnityEngine.Random.Range( 0f, 0.99f ), 6 );
+        AddTimed( UnityEngine.Random.Range( 0f, 0.99f ), 6 );
+
         //var color = ColorExtension.HSVToRGB( 1, 1, 1 );
         //var hsv = color.ToHSV();
 
@@ -49,11 +56,9 @@ public class Pentagram : MonoBehaviour {
 
         //Debug.Log( ColorExtension.HSVToRGB( 1, 0, 1 ) );
 
-        AddInstant( 0.5f );
+        //AddInstant( 0.5f );
+        //AddTimed( 0.25f, 9999 );
 
-
-        AddTimed( 0, 4 );
-        
         //AddTimed( 0.2f, 4 );
         //AddWait( 1 );
         //AddTimed( 0.9f, 4 );
@@ -151,6 +156,8 @@ public class Pentagram : MonoBehaviour {
                 yield return currentIt.Current;
             }
         }
+
+        start = DateTime.Now;
 
         while ( true ) {
             var it = Timed( UnityEngine.Random.Range( 0f, 1f ), GetDuration() );
