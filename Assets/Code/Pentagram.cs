@@ -167,12 +167,6 @@ public class Pentagram : MonoBehaviour {
 
                 yield return it.Current;
             }
-
-            it = Wait( 0 );
-
-            while ( it.MoveNext() ) {
-                yield return it.Current;
-            }
         }
 
         yield break;
