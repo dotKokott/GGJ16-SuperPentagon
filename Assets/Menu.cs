@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Menu : MonoBehaviour {
 
+    public GameObject loading;
     public int currentitem = 0;
 	// Use this for initialization
 	void Start () {
@@ -35,7 +36,8 @@ public class Menu : MonoBehaviour {
 
         if(Input.GetKeyDown(KeyCode.Space)) {
             if(currentitem == 0) {
-                Application.LoadLevel( "Main" );
+                loading.SetActive( true );
+                StartCoroutine( WaitAndLoad() );
             }
 
             if ( currentitem == 1 ) {
@@ -50,5 +52,10 @@ public class Menu : MonoBehaviour {
                 Application.Quit();
             }
         }
+    }
+
+    private IEnumerator WaitAndLoad() {
+        yield return new WaitForSeconds( 3.5f );
+        Application.LoadLevel( "Main" );
     }
 }
