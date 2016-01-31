@@ -53,7 +53,7 @@ public class Pentagram : MonoBehaviour {
 
 
         AddTimed( 0, 4 );
-        AddWait( 1 );
+        
         //AddTimed( 0.2f, 4 );
         //AddWait( 1 );
         //AddTimed( 0.9f, 4 );
@@ -168,7 +168,7 @@ public class Pentagram : MonoBehaviour {
                 yield return it.Current;
             }
 
-            it = Wait( 1 );
+            it = Wait( 0 );
 
             while ( it.MoveNext() ) {
                 yield return it.Current;
