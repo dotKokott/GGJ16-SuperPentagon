@@ -28,7 +28,7 @@ public class Pentagram : MonoBehaviour {
     private bool stopCurrent = false;
 
     private DateTime start;
-
+    public static int Candles = 0;
 
     void Start() {
         start = DateTime.Now;
@@ -53,7 +53,7 @@ public class Pentagram : MonoBehaviour {
 
 
         AddTimed( 0, 4 );
-        AddWait( 1 );
+        
         //AddTimed( 0.2f, 4 );
         //AddWait( 1 );
         //AddTimed( 0.9f, 4 );
@@ -121,7 +121,7 @@ public class Pentagram : MonoBehaviour {
 
     private IEnumerator HandleQueue() {
         foreach ( var item in Qu ) {
-            
+
             IEnumerator currentIt = null;
 
             switch ( item.Mode ) {
@@ -136,6 +136,7 @@ public class Pentagram : MonoBehaviour {
                     break;
             }
 
+            Candles = 0;
             while ( currentIt.MoveNext() ) {
                 if ( stopCurrent ) {
                     stopCurrent = false;
@@ -154,6 +155,7 @@ public class Pentagram : MonoBehaviour {
         while ( true ) {
             var it = Timed( UnityEngine.Random.Range( 0f, 1f ), GetDuration() );
 
+            Candles = 0;
             while ( it.MoveNext() ) {
                 if ( stopCurrent ) {
                     stopCurrent = false;
@@ -165,12 +167,6 @@ public class Pentagram : MonoBehaviour {
                     break;
                 }
 
-                yield return it.Current;
-            }
-
-            it = Wait( 1 );
-
-            while ( it.MoveNext() ) {
                 yield return it.Current;
             }
         }
@@ -203,6 +199,8 @@ public class Pentagram : MonoBehaviour {
     private IEnumerator Timed( float hue, float duration ) {
         hue = Mathf.Min( 0.99f, hue );
 
+        iTween.PunchScale( GameObject.Find( "StageCpmtaomer" ), new Vector3( 0.25f, 0.25f, 0.25f ), 1 );
+
         var hsv = renderer.material.color.ToHSV();
         var diff = hue - hsv.x;
         var timefactor = 1f / duration;
@@ -225,6 +223,7 @@ public class Pentagram : MonoBehaviour {
 
             if ( !systems[cube].isPlaying ) {
                 systems[cube].Play();
+                Candles++;
             }
 
             systems[cube].startColor = color;
@@ -247,6 +246,7 @@ public class Pentagram : MonoBehaviour {
 
                 if ( !systems[cube].isPlaying ) {
                     systems[cube].Play();
+                    Candles++;
                 }
 
                 systems[cube].startColor = color;
@@ -274,6 +274,7 @@ public class Pentagram : MonoBehaviour {
     void Update() {
         if ( Input.GetButtonDown( "Cash" ) ) {
             iTween.ShakePosition( GameObject.Find( "Main Camera" ), new Vector3( 0.2f, 0.2f, 0.2f ), 0.4f );
+            //iTween.PunchScale( GameObject.Find( "StageCpmtaomer" ), new Vector3( 0.25f, 0.25f, 0.25f ), 1 );
             Skip();
         }
     }
