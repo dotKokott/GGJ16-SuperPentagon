@@ -31,6 +31,7 @@ public class Pentagram : MonoBehaviour {
     public static int Candles = 0;
 
     void Start() {
+        Candles = 0;
         start = DateTime.Now;
         renderer = GetComponent<SpriteRenderer>();
 

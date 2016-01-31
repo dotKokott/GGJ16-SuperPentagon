@@ -24,9 +24,18 @@ public class HueHelper : MonoBehaviour {
             c.a = 0;
             BarMat.color = c;
 
+
+
+
             Controller.OnBadCash += Controller_OnBadCash;
             Controller.OnGoodCash += Controller_OnGoodCash;
         }
+
+    }
+
+    void OnDestroy() {
+        Controller.OnBadCash -= Controller_OnBadCash;
+        Controller.OnGoodCash -= Controller_OnGoodCash;
 
     }
 

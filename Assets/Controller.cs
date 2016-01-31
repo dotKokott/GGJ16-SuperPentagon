@@ -32,9 +32,14 @@ public class Controller : MonoBehaviour {
     void Start() {
         Score = 0;
         penta = GameObject.Find( "Symbol" ).GetComponent<Pentagram>();
-        pentaRenderer = GameObject.Find( "Symbol" ).GetComponent<SpriteRenderer>();
+        pentaRenderer = GameObject.Find( "Symbol" ).GetComponent<SpriteRenderer>();        
+
 
         OnBadCash += Controller_OnBadCash;
+    }
+
+    void OnDestroy() {
+        OnBadCash -= Controller_OnBadCash;
     }
 
     private void Controller_OnBadCash( object sender, EventArgs e ) {

@@ -40,8 +40,14 @@ public class MusicSwitcher : MonoBehaviour {
 
     void Start() {
         source = GetComponent<AudioSource>();
+        
         Controller.OnBadCash += Controller_OnBadCash;
         Controller_OnBadCash( null, null );
+    }
+
+    void OnDestroy() {
+
+        Controller.OnBadCash -= Controller_OnBadCash;
     }
 
     private void Controller_OnBadCash( object sender, System.EventArgs e ) {

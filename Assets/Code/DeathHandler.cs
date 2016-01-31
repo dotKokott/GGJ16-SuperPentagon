@@ -13,6 +13,10 @@ public class DeathHandler : MonoBehaviour {
         //start = DateTime.Now;
     }
 
+    void OnDestroy() {
+        Controller.OnDeath -= Controller_OnDeath;
+    }
+
     private void Controller_OnDeath( object sender, System.EventArgs e ) {
         Camera.main.GetComponent<MusicSwitcher>().PlayDemonRelease();
         iTween.ShakePosition( Camera.main.gameObject, new Vector3( 0.25f, 0.25f, 0.25f ) * 1.5f, 2.5f );

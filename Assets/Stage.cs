@@ -9,7 +9,7 @@ public class Stage : MonoBehaviour {
     public int StageNo = -1;
     public bool Stay = false;
 
-    void Start() {
+    void Start() {        
         Controller.OnBadCash += Controller_OnBadCash;
     }
 
@@ -21,5 +21,9 @@ public class Stage : MonoBehaviour {
     void Update() {
         //transform.RotateAround( Vector3.forward, RotationSpeed * Time.deltaTime );
         transform.Rotate( 0, 0, RotationSpeed * Time.deltaTime / 2 );
+    }
+
+    void OnDestroy() {
+        Controller.OnBadCash -= Controller_OnBadCash;
     }
 }
