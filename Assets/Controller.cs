@@ -71,9 +71,15 @@ public class Controller : MonoBehaviour {
             var myCol = t;
             var penCol = pentaRenderer.material.color.ToHSV().x;
 
+            if ( penCol < 0.1f && myCol > 0.9f ) {
+                penCol = 1 - penCol;
+            } else if ( penCol > 0.9f && myCol < 0.1f ) {
+                penCol = 1 - penCol;
+            }
+
             var diff = Mathf.Abs( myCol - penCol );
 
-            var percent = 100 - diff * 100;
+            var percent = 100 - diff * 100;            
 
             if ( percent >= 90 ) {
                 OnGoodCash( this, null );

@@ -27,12 +27,14 @@ public class Pentagram : MonoBehaviour {
     new public SpriteRenderer renderer;
     private bool stopCurrent = false;
 
-    
+    private DateTime start;
+
 
     void Start() {
+        start = DateTime.Now;
         renderer = GetComponent<SpriteRenderer>();
 
-        foreach(var cube in Cubes ) {
+        foreach ( var cube in Cubes ) {
 
             var sys = cube.GetComponent<ParticleSystem>();
             sys.startSize = 1;
@@ -48,19 +50,22 @@ public class Pentagram : MonoBehaviour {
         //Debug.Log( ColorExtension.HSVToRGB( 1, 0, 1 ) );
 
         AddInstant( 0.5f );
+
+
         AddTimed( 0, 4 );
         AddWait( 1 );
-        AddTimed( 0.2f, 4 );
-        AddWait( 1 );
-        AddTimed( 0.9f, 4 );
-        AddWait( 1 );
-        AddTimed( 0.3f, 4 );
-        AddWait( 1 );
-        AddTimed( 0.7f, 4 );
-        AddWait( 1 );
-        AddTimed( 0.2f, 4 );
-        AddWait( 1 );
-        AddTimed( 0.5f, 4 );
+        //AddTimed( 0.2f, 4 );
+        //AddWait( 1 );
+        //AddTimed( 0.9f, 4 );
+        //AddWait( 1 );
+        //AddTimed( 0.3f, 4 );
+        //AddWait( 1 );
+        //AddTimed( 0.7f, 4 );
+        //AddWait( 1 );
+        //AddTimed( 0.2f, 4 );
+        //AddWait( 1 );
+        //AddTimed( 0.5f, 4 );
+
         //AddTimed( 0.5f, 1 );
         //AddTimed( 1, 1 );
         //AddInstant( 0.5f );
@@ -98,7 +103,8 @@ public class Pentagram : MonoBehaviour {
     public void AddTimed( float hue, float time ) {
         Qu.Add( new PentaInfo() {
             Mode = EPentaMode.Timed,
-            Time = time, Hue = hue
+            Time = time,
+            Hue = hue
         } );
     }
 
@@ -115,6 +121,7 @@ public class Pentagram : MonoBehaviour {
 
     private IEnumerator HandleQueue() {
         foreach ( var item in Qu ) {
+            
             IEnumerator currentIt = null;
 
             switch ( item.Mode ) {
@@ -144,7 +151,46 @@ public class Pentagram : MonoBehaviour {
             }
         }
 
+        while ( true ) {
+            var it = Timed( UnityEngine.Random.Range( 0f, 1f ), GetDuration() );
+
+            while ( it.MoveNext() ) {
+                if ( stopCurrent ) {
+                    stopCurrent = false;
+
+                    for ( var i = 0; i < Cubes.Length; i++ ) {
+                        systems[i].Stop();
+                    }
+
+                    break;
+                }
+
+                yield return it.Current;
+            }
+
+            it = Wait( 1 );
+
+            while ( it.MoveNext() ) {
+                yield return it.Current;
+            }
+        }
+
         yield break;
+    }
+
+    private float GetDuration() {
+        var stamp = TimeSpan.FromTicks( DateTime.Now.Ticks - start.Ticks );
+        var seconds = stamp.TotalSeconds;
+
+        if ( seconds < 15 ) {
+            return 5;
+        } else if ( seconds < 30 ) {
+            return 4;
+        } else if ( seconds < 60 ) {
+            return 3;
+        } else {
+            return 2;
+        }
     }
 
     private IEnumerator Instant( float hue ) {
@@ -173,11 +219,11 @@ public class Pentagram : MonoBehaviour {
 
 
 
-            var cube = (int)Mathf.Floor(( Cubes.Length / duration ) * time);
+            var cube = (int)Mathf.Floor( ( Cubes.Length / duration ) * time );
 
             var color = ColorExtension.HSVToRGB( hue, 1, 1 );
 
-            if(!systems[cube].isPlaying) {
+            if ( !systems[cube].isPlaying ) {
                 systems[cube].Play();
             }
 
@@ -194,7 +240,7 @@ public class Pentagram : MonoBehaviour {
             hsv.y += Time.deltaTime * timefactor * 2;
             //renderer.material.color = ColorExtension.HSVToRGB( hsv.x, hsv.y, 1 );
 
-            if(time < duration ) {
+            if ( time < duration ) {
                 var cube = (int)Mathf.Floor( ( (float)Cubes.Length / duration ) * time );
 
                 var color = ColorExtension.HSVToRGB( hue, 1, 1 );
@@ -208,7 +254,7 @@ public class Pentagram : MonoBehaviour {
                 Cubes[cube].material.SetColor( "_TintColor", color );
             }
 
-            
+
             yield return null;
         }
 
