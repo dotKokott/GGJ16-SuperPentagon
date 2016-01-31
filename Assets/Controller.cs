@@ -95,6 +95,7 @@ public class Controller : MonoBehaviour {
                 musi.PlayAngry();
             } else {
                 musi.PlayLaugh();
+                musi.PlayNegative();
 
                 OnBadCash( this, null );
             }

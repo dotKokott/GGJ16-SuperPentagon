@@ -16,6 +16,8 @@ public class MusicSwitcher : MonoBehaviour {
     public AudioClip[] Angry;
     public AudioClip[] Laugh;
 
+    public AudioClip Negative;
+
     public void PlayBoom() {
         SFXSource.PlayOneShot( Boom );
     }
@@ -29,7 +31,11 @@ public class MusicSwitcher : MonoBehaviour {
     }
 
     public void PlayDemonRelease() {
-        SFXSource.PlayOneShot( DemonRelease );
+        source.PlayOneShot( DemonRelease );
+    }
+
+    public void PlayNegative() {
+        SFXSource.PlayOneShot( Negative, 1 );
     }
 
     void Start() {
