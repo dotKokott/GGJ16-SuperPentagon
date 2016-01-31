@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.UI;
 
 public class Controller : MonoBehaviour {
 
@@ -17,12 +18,14 @@ public class Controller : MonoBehaviour {
 
     public Stage[] StageObjects;
     public int CurrentStage = 1;
+    public static int Score = 0;
 
     public static void Die() {
         OnBadCash( null, null );
     }
 
     void Start() {
+        Score = 0;
         penta = GameObject.Find( "Symbol" ).GetComponent<Pentagram>();
         pentaRenderer = GameObject.Find( "Symbol" ).GetComponent<SpriteRenderer>();
 
@@ -81,10 +84,16 @@ public class Controller : MonoBehaviour {
 
             var percent = 100 - diff * 100;
 
+
             var musi = Camera.main.GetComponent<MusicSwitcher>();
 
             if ( percent >= 90 ) {
                 OnGoodCash( this, null );
+
+                var points = 1000 * ( percent / 100f ) * ( 1 - ( Pentagram.Candles / 12f ) );
+                points = Mathf.Max( points, 0 );
+                Score += Mathf.FloorToInt( points );
+                GameObject.Find( "ScoreText" ).GetComponent<Text>().text = "SCORE: " + Score;
 
                 var sys = GameObject.Find( "DrBoom" ).GetComponentInChildren<ParticleSystem>();
                 var alpha = sys.startColor.a;
