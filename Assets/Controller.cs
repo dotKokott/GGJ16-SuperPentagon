@@ -38,6 +38,11 @@ public class Controller : MonoBehaviour {
     }
 
     private void Controller_OnBadCash( object sender, EventArgs e ) {
+        var musi = Camera.main.GetComponent<MusicSwitcher>();
+
+        musi.PlayLaugh();
+        musi.PlayNegative();
+
         CurrentStage++;
 
         if ( CurrentStage == 7 ) {
@@ -123,8 +128,7 @@ public class Controller : MonoBehaviour {
                 musi.PlayBoom();
                 musi.PlayAngry();
             } else {
-                musi.PlayLaugh();
-                musi.PlayNegative();
+
 
                 OnBadCash( this, null );
             }
