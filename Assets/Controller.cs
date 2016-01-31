@@ -32,7 +32,7 @@ public class Controller : MonoBehaviour {
     private void Controller_OnBadCash( object sender, EventArgs e ) {
         CurrentStage++;
 
-        if ( CurrentStage == 6 ) {
+        if ( CurrentStage == 7 ) {
             OnDeath( this, null );
         }
 
@@ -79,7 +79,9 @@ public class Controller : MonoBehaviour {
 
             var diff = Mathf.Abs( myCol - penCol );
 
-            var percent = 100 - diff * 100;            
+            var percent = 100 - diff * 100;
+
+            var musi = Camera.main.GetComponent<MusicSwitcher>();
 
             if ( percent >= 90 ) {
                 OnGoodCash( this, null );
@@ -88,7 +90,12 @@ public class Controller : MonoBehaviour {
                 var alpha = sys.startColor.a;
                 sys.startColor = pentaRenderer.material.color;
                 sys.Emit( 10000 );
+
+                musi.PlayBoom();
+                musi.PlayAngry();
             } else {
+                musi.PlayLaugh();
+
                 OnBadCash( this, null );
             }
 

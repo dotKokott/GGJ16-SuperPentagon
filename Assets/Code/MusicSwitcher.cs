@@ -8,6 +8,30 @@ public class MusicSwitcher : MonoBehaviour {
     public AudioClip[] clips;
     int index = -1;
 
+    public AudioSource SFXSource;
+
+    public AudioClip Boom;
+    public AudioClip DemonRelease;
+
+    public AudioClip[] Angry;
+    public AudioClip[] Laugh;
+
+    public void PlayBoom() {
+        SFXSource.PlayOneShot( Boom );
+    }
+
+    public void PlayAngry() {
+        SFXSource.PlayOneShot( Angry[Random.Range( 0, Angry.Length )] );
+    }
+
+    public void PlayLaugh() {
+        SFXSource.PlayOneShot( Laugh[Random.Range( 0, Laugh.Length )] );
+    }
+
+    public void PlayDemonRelease() {
+        SFXSource.PlayOneShot( DemonRelease );
+    }
+
     void Start() {
         source = GetComponent<AudioSource>();
         Controller.OnBadCash += Controller_OnBadCash;
