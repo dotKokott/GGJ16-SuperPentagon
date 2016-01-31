@@ -28,7 +28,7 @@ public class Pentagram : MonoBehaviour {
     private bool stopCurrent = false;
 
     private DateTime start;
-
+    public static int Candles = 0;
 
     void Start() {
         start = DateTime.Now;
@@ -136,6 +136,7 @@ public class Pentagram : MonoBehaviour {
                     break;
             }
 
+            Candles = 0;
             while ( currentIt.MoveNext() ) {
                 if ( stopCurrent ) {
                     stopCurrent = false;
@@ -154,6 +155,7 @@ public class Pentagram : MonoBehaviour {
         while ( true ) {
             var it = Timed( UnityEngine.Random.Range( 0f, 1f ), GetDuration() );
 
+            Candles = 0;
             while ( it.MoveNext() ) {
                 if ( stopCurrent ) {
                     stopCurrent = false;
@@ -221,6 +223,7 @@ public class Pentagram : MonoBehaviour {
 
             if ( !systems[cube].isPlaying ) {
                 systems[cube].Play();
+                Candles++;
             }
 
             systems[cube].startColor = color;
@@ -243,6 +246,7 @@ public class Pentagram : MonoBehaviour {
 
                 if ( !systems[cube].isPlaying ) {
                     systems[cube].Play();
+                    Candles++;
                 }
 
                 systems[cube].startColor = color;

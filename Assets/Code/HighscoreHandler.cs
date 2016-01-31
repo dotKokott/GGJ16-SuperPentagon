@@ -58,7 +58,7 @@ public class HighscoreHandler : MonoBehaviour {
 
                     otxt.gameObject.SetActive( true );
                     scoretxt.gameObject.SetActive( true );
-                    scoretxt.text = string.Format( "SCORE: {0}:{1}", Mathf.Floor( newscore / 60f ), ( newscore % 60 ).ToString( "D2" ) );
+                    scoretxt.text = string.Format( "SCORE: {0}", newscore );
                     label.SetActive( true );
                     settingName = true;
                     break;
@@ -133,9 +133,9 @@ public class HighscoreHandler : MonoBehaviour {
         txt.text = "";
         for ( int i = 0; i < names.Count; i++ ) {
             if ( i == 0 ) {
-                txt.text += string.Format( "{0}.  {1} - {2}:{3}\n", i + 1, names[i], Mathf.Floor( scores[i] / 60f ), ( scores[i] % 60 ).ToString( "D2" ) );
+                txt.text += string.Format( "{0}.  {1} - {2}\n", i + 1, names[i], scores[i] );
             } else {
-                txt.text += string.Format( "{0}. {1} - {2}:{3}\n", i + 1, names[i], Mathf.Floor( scores[i] / 60f ), ( scores[i] % 60 ).ToString( "D2" ) );
+                txt.text += string.Format( "{0}. {1} - {2}\n", i + 1, names[i], scores[i] );
             }
         }
     }
