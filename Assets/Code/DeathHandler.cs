@@ -17,7 +17,14 @@ public class DeathHandler : MonoBehaviour {
         Camera.main.GetComponent<MusicSwitcher>().PlayDemonRelease();
         iTween.ShakePosition( Camera.main.gameObject, new Vector3( 0.25f, 0.25f, 0.25f ) * 1.5f, 2.5f );
         Face.SetActive( true );
+
+        //Face.GetComponent<SpriteRenderer>().material.color = GameObject.Find( "Stage1-Circle1").GetComponent<SpriteRenderer>().material.color;
+
         StartCoroutine( WaitAndZoom() );
+    }
+
+    void Update() {
+        Face.GetComponent<SpriteRenderer>().material.color = GameObject.Find( "Stage1-Circle1" ).GetComponent<SpriteRenderer>().material.color;
     }
 
     private IEnumerator WaitAndZoom() {
