@@ -17,7 +17,7 @@ public class HighscoreHandler : MonoBehaviour {
 
         PlayerPrefs.DeleteKey( "newscore" );
         PlayerPrefs.Save();
-        
+
         var scores = new List<int>();
 
         if ( highscores == "empty" ) {
@@ -56,5 +56,11 @@ public class HighscoreHandler : MonoBehaviour {
 
         PlayerPrefs.SetString( "highscores", nh );
         PlayerPrefs.Save();
+    }
+
+    void Update() {
+        if ( Input.GetButton( "Cash" ) ) {
+            Application.LoadLevel( "Menu" );
+        }
     }
 }
