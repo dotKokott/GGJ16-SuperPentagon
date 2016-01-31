@@ -13,13 +13,36 @@ public class Controller : MonoBehaviour {
     public static event EventHandler OnGoodCash;
     public static event EventHandler OnBadCash;
 
+    public Stage[] StageObjects;
+    public int CurrentStage = 1;
+
     void Start() {
         penta = GameObject.Find( "Symbol" ).GetComponent<Pentagram>();
         pentaRenderer = GameObject.Find( "Symbol" ).GetComponent<SpriteRenderer>();
+
+        OnBadCash += Controller_OnBadCash;
+    }
+
+    private void Controller_OnBadCash( object sender, EventArgs e ) {
+        CurrentStage++;
+
+        if ( CurrentStage > 6 ) return;
+
+        foreach(var obj in StageObjects) {
+            if(obj.StageNo == CurrentStage) {
+                obj.gameObject.SetActive( true );
+            } else {
+                if ( !obj.Stay ) obj.gameObject.SetActive( false );
+            }
+        }
     }
 
     // Update is called once per frame
     void Update() {
+        if(Input.GetKeyDown(KeyCode.P)) {
+            Controller_OnBadCash( this, EventArgs.Empty );
+        }
+
         float vertical = Input.GetAxis( "Vertical" );
         var t = ( vertical + 1 ) / 2f;
         if ( STEP_SIZE > 0 ) {
@@ -28,6 +51,10 @@ public class Controller : MonoBehaviour {
         }
 
         render.material.color = HSVToRGB( t, 1, 1, true );
+
+        foreach(var obj in StageObjects) {
+            obj.GetComponent<SpriteRenderer>().material.color = pentaRenderer.material.color;
+        }
 
         if ( Input.GetButtonDown( "Cash" ) ) {
             var myCol = t;
