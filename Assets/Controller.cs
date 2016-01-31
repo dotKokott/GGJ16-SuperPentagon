@@ -29,8 +29,8 @@ public class Controller : MonoBehaviour {
 
         if ( CurrentStage > 6 ) return;
 
-        foreach(var obj in StageObjects) {
-            if(obj.StageNo == CurrentStage) {
+        foreach ( var obj in StageObjects ) {
+            if ( obj.StageNo == CurrentStage ) {
                 obj.gameObject.SetActive( true );
             } else {
                 if ( !obj.Stay ) obj.gameObject.SetActive( false );
@@ -40,7 +40,7 @@ public class Controller : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if(Input.GetKeyDown(KeyCode.P)) {
+        if ( Input.GetKeyDown( KeyCode.P ) ) {
             Controller_OnBadCash( this, EventArgs.Empty );
         }
 
@@ -54,7 +54,7 @@ public class Controller : MonoBehaviour {
         render.material.color = HSVToRGB( t, 1, 1, true );
         objRenderer.material.color = HSVToRGB( t, 1, 1f, true );
 
-        foreach (var obj in StageObjects) {
+        foreach ( var obj in StageObjects ) {
             obj.GetComponent<SpriteRenderer>().material.color = pentaRenderer.material.color;
         }
 
@@ -75,10 +75,18 @@ public class Controller : MonoBehaviour {
                 sys.Emit( 10000 );
             } else {
                 OnBadCash( this, null );
+
+                if ( CurrentStage == 6 ) {
+                    StartCoroutine( OhSnapYouDead() );
+                }
             }
 
             GameObject.Find( "Text" ).GetComponent<TextMesh>().text = String.Format( "{0} %", (int)percent );
         }
+    }
+
+    private IEnumerator OhSnapYouDead() {
+        yield break;
     }
 
     private Color HSVToRGB( float H, float S, float V, bool hdr = true ) {
