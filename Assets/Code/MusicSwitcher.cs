@@ -8,15 +8,17 @@ public class MusicSwitcher : MonoBehaviour {
     public AudioClip[] clips;
     int index = -1;
 
-	void Start () {
+    void Start() {
         source = GetComponent<AudioSource>();
         Controller.OnBadCash += Controller_OnBadCash;
         Controller_OnBadCash( null, null );
-	}
+    }
 
     private void Controller_OnBadCash( object sender, System.EventArgs e ) {
         index++;
-        source.clip = clips[index];
-        source.Play();
+        if ( index < clips.Length ) {
+            source.clip = clips[index];
+            source.Play();
+        }
     }
 }
