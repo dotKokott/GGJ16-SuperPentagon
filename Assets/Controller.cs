@@ -13,6 +13,7 @@ public class Controller : MonoBehaviour {
 
     public static event EventHandler OnGoodCash;
     public static event EventHandler OnBadCash;
+    public static event EventHandler OnDeath;
 
     public Stage[] StageObjects;
     public int CurrentStage = 1;
@@ -77,16 +78,12 @@ public class Controller : MonoBehaviour {
                 OnBadCash( this, null );
 
                 if ( CurrentStage == 6 ) {
-                    StartCoroutine( OhSnapYouDead() );
+                    OnDeath( this, null );
                 }
             }
 
             GameObject.Find( "Text" ).GetComponent<TextMesh>().text = String.Format( "{0} %", (int)percent );
         }
-    }
-
-    private IEnumerator OhSnapYouDead() {
-        yield break;
     }
 
     private Color HSVToRGB( float H, float S, float V, bool hdr = true ) {
