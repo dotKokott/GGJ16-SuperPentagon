@@ -11,6 +11,8 @@ public class HighscoreHandler : MonoBehaviour {
 
     private Text txt;
     public Text otxt;
+    public GameObject label;
+    public Text scoretxt;
     private bool settingName = false;
 
     private int insertAtThisIndex = -1;
@@ -53,7 +55,11 @@ public class HighscoreHandler : MonoBehaviour {
                 if ( newscore > scores[i] ) {
                     insertAtThisIndex = i;
                     txt.enabled = false;
+
                     otxt.gameObject.SetActive( true );
+                    scoretxt.gameObject.SetActive( true );
+                    scoretxt.text = string.Format( "SCORE: {0}:{1}", Mathf.Floor( newscore / 60f ), ( newscore % 60 ).ToString( "D2" ) );
+                    label.SetActive( true );
                     settingName = true;
                     break;
                 }
@@ -86,6 +92,8 @@ public class HighscoreHandler : MonoBehaviour {
                     SaveHS();
                     txt.enabled = true;
                     otxt.gameObject.SetActive( false );
+                    scoretxt.gameObject.SetActive( false );
+                    label.SetActive( false );
                     settingName = false;
 
                     WriteHS();
