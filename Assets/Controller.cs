@@ -20,6 +20,11 @@ public class Controller : MonoBehaviour {
     public int CurrentStage = 1;
     public static int Score = 0;
 
+    public GameObject help1;
+    public GameObject help2;
+
+    private bool first = true;
+
     public static void Die() {
         OnBadCash( null, null );
     }
@@ -68,6 +73,20 @@ public class Controller : MonoBehaviour {
             t = tInt / STEP_SIZE;
         }
 
+        if ( first ) {
+            var myCol = t;
+            var penCol = pentaRenderer.material.color.ToHSV().x;
+
+            if ( myCol > ( penCol - 0.1f ) && myCol < ( penCol + 0.1f ) ) {
+                help1.SetActive( true );
+                help2.SetActive( true );
+            } else {
+                help2.SetActive( false );
+                help1.SetActive( false );
+            }
+        }
+
+
         render.material.color = HSVToRGB( t, 1, 1, true );
         objRenderer.material.color = HSVToRGB( t, 1, 1f, true );
 
@@ -97,7 +116,9 @@ public class Controller : MonoBehaviour {
 
                 var points = 1000 * ( percent / 100f ) * ( 1 - ( Pentagram.Candles / 12f ) );
                 points = Mathf.Max( points, 0 );
-                Score += Mathf.FloorToInt( points );                
+                Score += Mathf.FloorToInt( points );
+
+                GameObject.Find( "ScoreText" ).GetComponent<Text>().text = "SCORE: " + Score;
 
                 var sys = GameObject.Find( "DrBoom" ).GetComponentInChildren<ParticleSystem>();
                 var alpha = sys.startColor.a;
@@ -110,6 +131,12 @@ public class Controller : MonoBehaviour {
 
 
                 OnBadCash( this, null );
+            }
+
+            if ( first ) {
+                first = false;
+                help1.SetActive( false );
+                help2.SetActive( false );
             }
 
             GameObject.Find( "Text" ).GetComponent<TextMesh>().text = String.Format( "{0} %", (int)percent );
