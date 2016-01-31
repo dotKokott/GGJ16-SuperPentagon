@@ -92,8 +92,7 @@ public class Controller : MonoBehaviour {
 
                 var points = 1000 * ( percent / 100f ) * ( 1 - ( Pentagram.Candles / 12f ) );
                 points = Mathf.Max( points, 0 );
-                Score += Mathf.FloorToInt( points );
-                GameObject.Find( "ScoreText" ).GetComponent<Text>().text = "SCORE: " + Score;
+                Score += Mathf.FloorToInt( points );                
 
                 var sys = GameObject.Find( "DrBoom" ).GetComponentInChildren<ParticleSystem>();
                 var alpha = sys.startColor.a;
