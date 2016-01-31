@@ -191,8 +191,10 @@ public class Pentagram : MonoBehaviour {
             return 4;
         } else if ( seconds < 60 ) {
             return 3;
-        } else {
+        } else if ( seconds < 120 ) {
             return 2;
+        } else {
+            return 1;
         }
     }
 
