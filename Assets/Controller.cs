@@ -4,9 +4,10 @@ using System;
 
 public class Controller : MonoBehaviour {
 
-    public MeshRenderer render;
+    public SpriteRenderer render;
     private Pentagram penta;
     private SpriteRenderer pentaRenderer;
+    public SpriteRenderer objRenderer;
 
     public static float STEP_SIZE = 0f;
 
@@ -51,8 +52,9 @@ public class Controller : MonoBehaviour {
         }
 
         render.material.color = HSVToRGB( t, 1, 1, true );
+        objRenderer.material.color = HSVToRGB( t, 1, 1f, true );
 
-        foreach(var obj in StageObjects) {
+        foreach (var obj in StageObjects) {
             obj.GetComponent<SpriteRenderer>().material.color = pentaRenderer.material.color;
         }
 
