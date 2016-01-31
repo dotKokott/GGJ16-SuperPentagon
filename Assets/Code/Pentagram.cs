@@ -121,7 +121,7 @@ public class Pentagram : MonoBehaviour {
 
     private IEnumerator HandleQueue() {
         foreach ( var item in Qu ) {
-            
+
             IEnumerator currentIt = null;
 
             switch ( item.Mode ) {
@@ -203,6 +203,8 @@ public class Pentagram : MonoBehaviour {
     private IEnumerator Timed( float hue, float duration ) {
         hue = Mathf.Min( 0.99f, hue );
 
+        iTween.PunchScale( GameObject.Find( "StageCpmtaomer" ), new Vector3( 0.25f, 0.25f, 0.25f ), 1 );
+
         var hsv = renderer.material.color.ToHSV();
         var diff = hue - hsv.x;
         var timefactor = 1f / duration;
@@ -274,6 +276,7 @@ public class Pentagram : MonoBehaviour {
     void Update() {
         if ( Input.GetButtonDown( "Cash" ) ) {
             iTween.ShakePosition( GameObject.Find( "Main Camera" ), new Vector3( 0.2f, 0.2f, 0.2f ), 0.4f );
+            //iTween.PunchScale( GameObject.Find( "StageCpmtaomer" ), new Vector3( 0.25f, 0.25f, 0.25f ), 1 );
             Skip();
         }
     }
