@@ -18,6 +18,10 @@ public class Controller : MonoBehaviour {
     public Stage[] StageObjects;
     public int CurrentStage = 1;
 
+    public static void Die() {
+        OnBadCash( null, null );
+    }
+
     void Start() {
         penta = GameObject.Find( "Symbol" ).GetComponent<Pentagram>();
         pentaRenderer = GameObject.Find( "Symbol" ).GetComponent<SpriteRenderer>();
@@ -27,6 +31,10 @@ public class Controller : MonoBehaviour {
 
     private void Controller_OnBadCash( object sender, EventArgs e ) {
         CurrentStage++;
+
+        if ( CurrentStage == 6 ) {
+            OnDeath( this, null );
+        }
 
         if ( CurrentStage > 6 ) return;
 
@@ -76,10 +84,6 @@ public class Controller : MonoBehaviour {
                 sys.Emit( 10000 );
             } else {
                 OnBadCash( this, null );
-
-                if ( CurrentStage == 6 ) {
-                    OnDeath( this, null );
-                }
             }
 
             GameObject.Find( "Text" ).GetComponent<TextMesh>().text = String.Format( "{0} %", (int)percent );

@@ -216,6 +216,8 @@ public class Pentagram : MonoBehaviour {
             systems[i].Stop();
         }
 
+        Controller.Die();
+
         yield break;
     }
 
@@ -227,7 +229,6 @@ public class Pentagram : MonoBehaviour {
         if ( Input.GetButtonDown( "Cash" ) ) {
             iTween.ShakePosition( GameObject.Find( "Main Camera" ), new Vector3( 0.2f, 0.2f, 0.2f ), 0.4f );
             Skip();
-
         }
     }
 }
