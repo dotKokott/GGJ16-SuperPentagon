@@ -110,7 +110,7 @@ public class HighscoreHandler : MonoBehaviour {
                 }
             }
         } else {
-            if ( Input.GetButtonUp( "Cash" ) ) {
+            if ( Input.GetButtonUp( "Cash" ) || Controller.tapped ) {
                 Application.LoadLevel( "Menu" );
             }
         }

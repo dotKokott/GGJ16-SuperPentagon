@@ -30,6 +30,8 @@ public class Controller : MonoBehaviour {
     }
 
     void Start() {
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
+
         Score = 0;
         penta = GameObject.Find( "Symbol" ).GetComponent<Pentagram>();
         pentaRenderer = GameObject.Find( "Symbol" ).GetComponent<SpriteRenderer>();        
@@ -65,14 +67,35 @@ public class Controller : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
+    private int sizeFilter = 15;
+    private Vector3[] filter;
+    private Vector3 filterSum = Vector3.zero;
+    private int posFilter = 0;
+    private int qSamples = 0;
+
+    Vector3 MovAverage(Vector3 sample) {
+
+        if (qSamples == 0) filter = new Vector3[sizeFilter];
+        filterSum += sample - filter[posFilter];
+        filter[posFilter++] = sample;
+        if (posFilter > qSamples) qSamples = posFilter;
+        posFilter = posFilter % sizeFilter;
+        return filterSum / qSamples;
+    }
+
+    public static bool tapped = false;
+
     void Update() {
         if ( Input.GetKeyDown( KeyCode.P ) ) {
             Controller_OnBadCash( this, EventArgs.Empty );
-        }
+        }        
 
         float vertical = Input.GetAxis( "Vertical" );
+        vertical = MovAverage(Input.acceleration.normalized).x * 2f;
+        vertical = Mathf.Clamp(vertical, -1, 1);
         var t = ( vertical + 1 ) / 2f;
+        
+
         if ( STEP_SIZE > 0 ) {
             var tInt = (int)( t * STEP_SIZE );
             t = tInt / STEP_SIZE;
@@ -99,7 +122,9 @@ public class Controller : MonoBehaviour {
             obj.GetComponent<SpriteRenderer>().material.color = pentaRenderer.material.color;
         }
 
-        if ( Input.GetButtonDown( "Cash" ) ) {
+        tapped = Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began;
+
+        if ( Input.GetButtonDown( "Cash" ) || tapped ) {
             var myCol = t;
             var penCol = pentaRenderer.material.color.ToHSV().x;
 

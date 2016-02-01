@@ -282,7 +282,7 @@ public class Pentagram : MonoBehaviour {
     }
 
     void Update() {
-        if ( Input.GetButtonDown( "Cash" ) ) {
+        if ( Input.GetButtonDown( "Cash" ) || Controller.tapped) {
             iTween.ShakePosition( GameObject.Find( "Main Camera" ), new Vector3( 0.2f, 0.2f, 0.2f ), 0.4f );
             //iTween.PunchScale( GameObject.Find( "StageCpmtaomer" ), new Vector3( 0.25f, 0.25f, 0.25f ), 1 );
             Skip();

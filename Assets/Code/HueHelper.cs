@@ -53,10 +53,29 @@ public class HueHelper : MonoBehaviour {
         BarMat.color = c;
     }
 
+    private int sizeFilter = 15;
+    private Vector3[] filter;
+    private Vector3 filterSum = Vector3.zero;
+    private int posFilter = 0;
+    private int qSamples = 0;
+ 
+    Vector3 MovAverage(Vector3 sample) {
+ 
+        if (qSamples==0) filter = new Vector3[sizeFilter];
+        filterSum += sample - filter[posFilter];
+        filter[posFilter++] = sample;
+        if (posFilter > qSamples) qSamples = posFilter;
+        posFilter = posFilter % sizeFilter;
+        return filterSum / qSamples;
+    }
+
     void Update () {
         var vertical = Input.GetAxis( "Vertical" );
+        vertical = MovAverage(Input.acceleration.normalized).x * 2f;
+        vertical = Mathf.Clamp(vertical, -1, 1);
         var pos = start;
         pos.x += offset * vertical;
+        
         transform.position = pos;
 	}
 }
